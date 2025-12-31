@@ -20,8 +20,21 @@ const App: React.FC = () => {
   
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const savedTheme = localStorage.getItem('gestao_pro_theme');
-    return savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (savedTheme) return savedTheme === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
+
+  // Efeito de Tema - Aplica no HTML ROOT
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDarkMode) {
+      root.classList.add('dark');
+      localStorage.setItem('gestao_pro_theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('gestao_pro_theme', 'light');
+    }
+  }, [isDarkMode]);
 
   const currentYear = new Date().getFullYear();
   const years = useMemo(() => {
@@ -51,17 +64,6 @@ const App: React.FC = () => {
       localStorage.setItem('gestao_pro_configured', 'true');
     }
   }, []);
-
-  // Efeito de Tema
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('gestao_pro_theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('gestao_pro_theme', 'light');
-    }
-  }, [isDarkMode]);
 
   // Persistência em Tempo Real
   useEffect(() => {
