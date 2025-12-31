@@ -1,0 +1,7 @@
+{
+  "name": "FINANCAS",
+  "description": "Um sistema completo e intuitivo para gestão de vendas, estoque e relatórios financeiros, focado em simplicidade e eficiência.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
